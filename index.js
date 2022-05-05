@@ -35,6 +35,16 @@ async function run() {
             const result = await notesCollection.deleteOne(query)
             res.send(result)
         })
+
+        app.put('/note/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedData = req.body
+            const filter = { _id: ObjectId(id) }
+            const options = { upsert: true }
+            const updatedDoc = { $set: updatedData }
+            const result = await notesCollection.updateOne(filter, updatedDoc, options)
+            res.send(result)
+        })
     } finally {
     }
 }
